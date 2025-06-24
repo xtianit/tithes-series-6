@@ -1,0 +1,2353 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tithes Series</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="quiz.css" />
+
+        <style>
+            /* Professional Engaging Spinner */
+            .tab-spinner {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 150px;
+                width: 100%;
+                position: relative;
+            }
+
+            /* Hide the original Font Awesome icon */
+            .tab-spinner i {
+                display: none;
+            }
+
+            /* Main spinner ring */
+            .tab-spinner::before {
+                content: "";
+                position: absolute;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                border: 3px solid rgba(74, 109, 167, 0.1);
+                border-top: 3px solid #4a6da7;
+                border-right: 3px solid #4a6da7;
+                box-shadow: 0 0 15px rgba(74, 109, 167, 0.1);
+                animation: spinClockwise 1.2s
+                    cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            }
+
+            .highlight {
+                color: #4a6da7;
+                font-weight: bold;
+                text-decoration: underline;
+            }
+
+            /* Inner spinner ring */
+            .tab-spinner::after {
+                content: "";
+                position: absolute;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 3px solid rgba(74, 109, 167, 0.05);
+                border-bottom: 3px solid #4a6da7;
+                border-left: 3px solid #4a6da7;
+                animation: spinCounterClockwise 1.8s
+                    cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            }
+
+            /* Create the pulse effect */
+            @keyframes spinClockwise {
+                0% {
+                    transform: rotate(0deg) scale(1);
+                }
+                50% {
+                    transform: rotate(180deg) scale(1.1);
+                    border-top-color: #5b7fbf;
+                    border-right-color: #5b7fbf;
+                    box-shadow: 0 0 20px rgba(74, 109, 167, 0.4);
+                }
+                100% {
+                    transform: rotate(360deg) scale(1);
+                }
+            }
+
+            @keyframes spinCounterClockwise {
+                0% {
+                    transform: rotate(0deg) scale(1);
+                }
+                50% {
+                    transform: rotate(-180deg) scale(1.15);
+                    border-bottom-color: #5b7fbf;
+                    border-left-color: #5b7fbf;
+                }
+                100% {
+                    transform: rotate(-360deg) scale(1);
+                }
+            }
+
+            /* Add a subtle pulsating dot in the center */
+            .tab-spinner .center-dot {
+                position: absolute;
+                width: 12px;
+                height: 12px;
+                background-color: #4a6da7;
+                border-radius: 50%;
+                animation: pulseDot 1.5s ease-in-out infinite;
+            }
+
+            @keyframes pulseDot {
+                0%,
+                100% {
+                    transform: scale(0.7);
+                    opacity: 0.5;
+                }
+                50% {
+                    transform: scale(1);
+                    opacity: 0.8;
+                    box-shadow: 0 0 10px rgba(74, 109, 167, 0.6);
+                }
+            }
+
+            /* Keep your existing fade transition */
+            .tab-content {
+                opacity: 0;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            .tab-content.active {
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Loading Screen -->
+        <div class="loader-container">
+            <div class="loader-logo">
+                <img src="./logo.png" alt="Sunday School Logo" />
+                <div class="pulse"></div>
+            </div>
+            <div class="ministry-name">Life Gate Ministries Worldwide</div>
+            <div class="loader-text">Loading Sunday School Lesson</div>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+
+        <div class="inner-logo-container">
+            <img src="./logo.png" alt="Sunday School Logo" class="logo" />
+        </div>
+
+        <button
+            class="theme-toggle"
+            onclick="toggleTheme()"
+            aria-label="Toggle theme"
+            style="z-index: 99999"
+        >
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <div class="container">
+            <h1><b>SUNDAY SCHOOL LESSON</b></h1>
+            <h2>
+                <b>DATE: <span>JUNE 29, 2025</span></b>
+            </h2>
+            <h2>
+                <b>
+                    TITHING PART SIX -
+                    <span onclick="showBibleVersions('Consequences')"
+                        >CONSEQUENCES</span
+                    >
+                    OF
+                    <span onclick="showBibleVersions('Neglecting')"
+                        >NEGLECTING</span
+                    >
+                    TITHING
+                </b>
+            </h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="lessonProgress"></div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab('intro')">
+                    Introduction
+                </button>
+                <button class="tab-btn" onclick="openTab('lesson')">
+                    Lesson
+                </button>
+
+                <button class="tab-btn" onclick="openTab('conclusion')">
+                    Conclusion
+                </button>
+                <button class="tab-btn" onclick="openTab('application')">
+                    Application
+                </button>
+
+                <button class="tab-btn" onclick="openTab('quiz')">Quiz</button>
+                <button class="tab-btn" onclick="openTab('prayer')">
+                    Prayer Points
+                </button>
+                <button class="tab-btn" onclick="openTab('assignment')">
+                    Assignment
+                </button>
+            </div>
+
+            <div id="tab-spinner" class="tab-spinner" style="display: none">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+
+            <!-- Tab Contents -->
+            <div id="intro" class="tab-content active">
+                <div class="memory-verse">
+                    <h1><b>🧠📝 Memory Verse</b></h1>
+                    <blockquote>
+                        <b>
+                            How shall we escape, if we neglect so great
+                            salvation... - Hebrews 2:3 ⚖️📏🔁🪞⚠️</b
+                        >
+                        <br />
+                        <button
+                            onclick="showBibleVersions('Hebrews 2:3')"
+                            class="verse-btn btn-sm"
+                        >
+                            Read in Different Versions
+                        </button>
+                    </blockquote>
+                </div>
+                <h2><b>Text: Genesis 2:15-17</b></h2>
+                <blockquote>
+                    <button
+                        onclick="showBibleVersions('Genesis 2:15-17')"
+                        class="verse-btn btn-sm"
+                    >
+                        Read in Different Versions
+                    </button>
+                </blockquote>
+
+                <h2><b>INTRODUCTION</b> 🧠✨📖</h2>
+                <p>
+                    In everything, there are advantages and disadvantages, and
+                    tithing is not exempted. Our previous lesson did reveal
+                    several benefits, but this one has come as a warning to all
+                    who
+                    <span onclick="showBibleVersions('Neglecting')"
+                        >neglect</span
+                    >
+                    tithing. Every violation of authority on earth attracts
+                    certain penalties, how much more God’s authority and
+                    command. God is the supreme authority of the whole universe
+                    and His Word is the ultimate. It is Him that commanded us to
+                    bring our tithes to His house and any neglect will bring
+                    penalties.
+                </p>
+
+                <div class="aims-objectives">
+                    <h3><b>AIMS AND OBJECTIVES</b> 🎯📖💡</h3>
+                    <p>
+                        <strong>AIMS:</strong> To clearly point out to all
+                        concerned that if we neglect God's command there are
+                        consequences to face. ⚠️🕊️📖💰🤔
+                    </p>
+
+                    <p>
+                        <strong>OBJECTIVES:</strong> That every child of God may
+                        escape the trouble that will arise from neglecting
+                        tithing. 🕊️⚖️📖💰🤔
+                    </p>
+                </div>
+            </div>
+
+            <div id="lesson" class="tab-content">
+                <h2><b>Text Review/Lesson 📚✨</b></h2>
+                <div class="main-text">
+                    <h3><b>Text: Genesis 2:15-17 🕊️</b></h3>
+                    <button
+                        onclick="showBibleVersions('Genesis 2:15-17')"
+                        class="verse-btn"
+                    >
+                        📖 Read Genesis 2:15-17
+                    </button>
+                </div>
+
+                <div class="lesson-section">
+                    <h3><b>Lesson 🧠💡</b></h3>
+                    <p>
+                        <span> 🌱🌷🌼🌿🌻🌺🍀🌳🌴🪴🏡🐝🐞 </span> <br />
+
+                        God planted a garden and put man into it to
+                        <em><b>dress</b></em> and <em><b>keep</b></em> it. This
+                        is the true situation and state of every man: the job,
+                        business and assets are given to you by God to look
+                        after for HIM. HE owns it and permitted you to eat from
+                        it.
+                    </p>
+                    <p>
+                        The man was commanded to eat as much as he wanted from
+                        the garden (job, business, income, etc) but reseerve the
+                        tree for knowledge of good and evil for HIM. This is a
+                        kind of Tithe, an Holy portion to God but the man ate
+                        his portion as well as God’s portion. This brought
+                        death, hardship and every ugly thing you see around us.
+                    </p>
+                    <p>
+                        God has given you power to make wealth out of HIS garden
+                        and His command is
+                        <b>eat nine parts and give one part</b> that one part
+                        you refuse to give God or you eat out will cause you
+                        pains like Adam and Eve.
+                    </p>
+
+                    <h2>
+                        ⚠️
+                        <u
+                            ><b
+                                >SOME
+                                <span
+                                    onclick="showBibleVersions('Consequences')"
+                                    >CONSEQUENCES</span
+                                ></b
+                            ></u
+                        >
+                    </h2>
+
+                    <ol class="scripture-list">
+                        <li>
+                            <p>
+                                <em>
+                                    <b>
+                                        <u
+                                            >Those who don't pay their tithes at
+                                            all</u
+                                        >
+                                    </b>
+                                </em>
+                                <br />They will be treated as robbers and are
+                                cursed with a curse - Malachi 3:8-9. Only God
+                                knows the gravity of the curse.
+                            </p>
+                            <ol type="a">
+                                <li>
+                                    If you borrow your titles the you will pay
+                                    back with <b>20%</b> interest of the value -
+                                    Leviticus 22:14
+
+                                    <a
+                                        style="text-decoration: none"
+                                        id="fruitTrigger"
+                                        class="emoji-btn"
+                                        role="button"
+                                        tabindex="0"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#titheDemoModal"
+                                        title="Open fruit tithe demo"
+                                    >
+                                        🧮
+                                    </a>
+                                </li>
+
+                                <!-- Trigger Button -->
+
+                                <div
+                                    class="modal fade"
+                                    id="titheDemoModal"
+                                    tabindex="-1"
+                                    aria-labelledby="titheDemoLabel"
+                                    aria-hidden="true"
+                                >
+                                    <div
+                                        class="modal-dialog modal-lg modal-dialog-scrollable"
+                                    >
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5
+                                                    class="modal-title"
+                                                    id="titheDemoLabel"
+                                                >
+                                                    🍇 Fruit Basket Tithe Demo
+                                                </h5>
+                                                <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"
+                                                ></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Place your demo HTML here -->
+                                                <p>
+                                                    <strong>Step 1:</strong>
+                                                    Someone accidentally eats
+                                                    <strong>5 baskets</strong>
+                                                    of holy fruit.
+                                                </p>
+                                                <p class="fs-4">
+                                                    🧺🧺🧺🧺🧺 = 5 holy baskets
+                                                </p>
+                                                <p>
+                                                    😬 Oops! He ate it
+                                                    <em>unintentionally</em>!
+                                                </p>
+
+                                                <p>
+                                                    <strong>Step 2:</strong> He
+                                                    must add
+                                                    <strong>1/5 (20%)</strong>
+                                                    more.
+                                                </p>
+                                                <p class="fs-4">
+                                                    1️⃣/5️⃣ of 🧺🧺🧺🧺🧺 = 🧺
+                                                </p>
+
+                                                <p>
+                                                    <strong>Step 3:</strong>
+                                                    Total he must give:
+                                                </p>
+                                                <p class="fs-4">
+                                                    🧺🧺🧺🧺🧺 ➕ 🧺 =
+                                                    <strong
+                                                        >🧺🧺🧺🧺🧺🧺</strong
+                                                    >
+                                                </p>
+
+                                                <p>
+                                                    <strong>Step 4:</strong> 🎁
+                                                    Give to the priest:
+                                                </p>
+                                                <p class="fs-4">
+                                                    👨‍⚖️ receives:
+                                                    <strong
+                                                        >🧺🧺🧺🧺🧺🧺</strong
+                                                    >
+                                                </p>
+
+                                                <hr />
+
+                                                <p>
+                                                    <strong>📖 Summary:</strong
+                                                    ><br />
+                                                    🍽️😅 Ate 5 holy baskets by
+                                                    mistake<br />
+                                                    ➕ 🧺 Add 1 more (20%)<br />
+                                                    ➡️ 🎁👨‍⚖️ Give all 6 baskets
+                                                    to the priest
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-secondary"
+                                                    data-bs-dismiss="modal"
+                                                >
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <audio id="fruitSound" src="https://cdn.pixabay.com/audio/2022/07/25/audio_1c1a849d3a.mp3" preload="auto"></audio> -->
+                                <audio id="fruitSound" preload="auto">
+                                    <source
+                                        src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_37cc464afa.mp3?filename=cartoon-jump-6462.mp3"
+                                        type="audio/mpeg"
+                                    />
+                                    Your browser does not support the audio
+                                    element.
+                                </audio>
+
+                                <!-- Include Bootstrap JS (needed for modal functionality) -->
+
+                                <div class="verse-buttons">
+                                    <button
+                                        onclick="showBibleVersions('Leviticus 22:14')"
+                                        class="verse-btn"
+                                    >
+                                        📖 Leviticus 22:14
+                                    </button>
+                                </div>
+                                <li>
+                                    If you exchange your tithe with anything,
+                                    both of them shall become God’s portion -
+                                    Leviticus 27:33 <br />
+                                    <div class="verse-buttons">
+                                        <button
+                                            onclick="showBibleVersions('Leviticus 27:33')"
+                                            class="verse-btn"
+                                        >
+                                            📖 Leviticus 27:33
+                                        </button>
+                                    </div>
+                                </li>
+                                <li>
+                                    If you don't tithe at all you will fall into
+                                    category one.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <u><b>Lack of resourses in God’s house.</b></u>
+                        </li>
+                        <li>
+                            The minister will abandon God’s work to look for
+                            bread elsewhere - Nehemiah 13:10. If this happen
+                            then there will be no man to stand in the gap for us
+                            and destruction will overtake us.
+                            <div class="verse-buttons">
+                                <button
+                                    onclick="showBibleVersions('Nehemiah 13:10')"
+                                    class="verse-btn"
+                                >
+                                    📖 Nehemiah 13:10
+                                </button>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="conclusion" class="tab-content">
+                <h2>Conclusion 📜</h2>
+                <p>
+                    The earth is the Lord's and by His infinite mercies He has
+                    given us from it to eat. Let us eat the part He assigned to
+                    us only and give Him His portion faithfully. If we obey, we
+                    will benefit but if we refuse we will suffer for it. God
+                    bless you and His word.
+                </p>
+            </div>
+
+            <div id="application" class="tab-content">
+                <h2>Personal Application 🧠🙏💰</h2>
+                <div class="reflection-section">
+                    <div class="interactive-cards">
+                        <!-- Understanding Check -->
+                        <div class="reflection-card">
+                            <h3>
+                                Understanding the Consequences of Neglecting
+                                Tithing ⚖️🛑
+                            </h3>
+                            <div class="love-meter">
+                                <p>
+                                    On a scale of 1 to 10, how clearly do you
+                                    now understand that neglecting tithing is a
+                                    violation of God’s authority with serious
+                                    consequences?
+                                </p>
+                                <div class="rating-container">
+                                    <input
+                                        type="range"
+                                        min="1"
+                                        max="10"
+                                        value="5"
+                                        class="love-slider"
+                                        id="titheRating"
+                                    />
+                                    <span class="rating-value">5/10</span>
+                                </div>
+                                <div class="rating-feedback"></div>
+                            </div>
+                        </div>
+
+                        <!-- Action Plan -->
+                        <div class="reflection-card">
+                            <h3>Action Plan to Avoid Consequences ⚒️🧺</h3>
+                            <div class="action-items">
+                                <div class="action-item">
+                                    <input type="checkbox" id="action1" />
+                                    <label for="action1"
+                                        >Start giving tithes faithfully and
+                                        fully 🍯</label
+                                    >
+                                </div>
+                                <div class="action-item">
+                                    <input type="checkbox" id="action2" />
+                                    <label for="action2"
+                                        >Set aside God's portion before spending
+                                        🧺🧺🧺</label
+                                    >
+                                </div>
+                                <div class="action-item">
+                                    <input type="checkbox" id="action3" />
+                                    <label for="action3"
+                                        >Avoid "eating" holy portions—don't
+                                        borrow your tithe 🙅‍♂️📛</label
+                                    >
+                                </div>
+                                <div class="action-item">
+                                    <input type="checkbox" id="action4" />
+                                    <label for="action4"
+                                        >Support ministers so God's work won't
+                                        be abandoned 🛐👨‍⚖️</label
+                                    >
+                                </div>
+                                <button class="add-action-btn">
+                                    Add Personal Action
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reflection Journal -->
+                    <div class="reflection-journal">
+                        <h3>Reflection Journal ✍️📖</h3>
+                        <div class="journal-prompts">
+                            <div class="prompt active">
+                                <p>
+                                    Which consequence of neglecting tithing
+                                    strikes you the most and why?
+                                </p>
+                                <textarea
+                                    class="reflection-input"
+                                    placeholder="Write your thoughts here..."
+                                ></textarea>
+                            </div>
+                            <div class="prompt">
+                                <p>
+                                    How does the story of Adam and Eve eating
+                                    God’s portion apply to your finances today?
+                                </p>
+                                <textarea
+                                    class="reflection-input"
+                                    placeholder="Reflect on Genesis 2:15–17 and its link to tithing..."
+                                ></textarea>
+                            </div>
+                            <div class="prompt">
+                                <p>
+                                    What personal step will you take this week
+                                    to return God’s holy portion to Him?
+                                </p>
+                                <textarea
+                                    class="reflection-input"
+                                    placeholder="Be specific about your plan of obedience..."
+                                ></textarea>
+                            </div>
+                            <div class="prompt-nav">
+                                <button class="prev-prompt" disabled>
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                                <span class="prompt-counter">1/3</span>
+                                <button class="next-prompt">
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Commitment Section -->
+                    <div class="commitment-section">
+                        <h3>Personal Commitment 📜🖊️</h3>
+                        <div class="commitment-form">
+                            <p>Based on today’s lesson, I commit to:</p>
+                            <input
+                                type="text"
+                                class="commitment-input"
+                                placeholder="e.g., Faithfully returning God's portion before spending mine..."
+                            />
+                            <button class="save-commitment">
+                                Make Commitment
+                            </button>
+                        </div>
+                        <div class="saved-commitments">
+                            <h4>My Tithing Commitments 📂💬</h4>
+                            <ul class="commitment-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <link rel="stylesheet" href="theme.css" />
+            <div id="quiz" class="tab-content">
+                <div class="quiz-container">
+                    <h3>Speed Quiz Challenge 🎯</h3>
+                    <div class="speed-quiz-container">
+                        <div class="quiz-stats">
+                            <div class="timer">
+                                ⏱️ Time: <span id="timer">50</span>s
+                            </div>
+                            <div class="score">
+                                Score: <span id="speed-score">0</span>
+                            </div>
+                        </div>
+                        <div id="question-container" class="question-display">
+                            <h4 style="color: green">Get Ready!</h4>
+                            <p style="color: green">
+                                Answer quickly for bonus points!
+                            </p>
+                        </div>
+
+                        <div class="answer-buttons">
+                            <button class="speed-btn" onclick="checkAnswer(0)">
+                                A
+                            </button>
+                            <button class="speed-btn" onclick="checkAnswer(1)">
+                                B
+                            </button>
+                            <button class="speed-btn" onclick="checkAnswer(2)">
+                                C
+                            </button>
+                            <button class="speed-btn" onclick="checkAnswer(3)">
+                                D
+                            </button>
+                        </div>
+
+                        <div class="controls">
+                            <button
+                                onclick="startSpeedQuiz()"
+                                class="start-btn"
+                            >
+                                Start Quiz
+                            </button>
+                            <button
+                                onclick="resetSpeedQuiz()"
+                                class="reset-btn"
+                            >
+                                Reset
+                            </button>
+                        </div>
+
+                        <div id="feedback" class="feedback"></div>
+                    </div>
+                </div>
+
+                <style>
+                    .quiz-container {
+                        padding: 15px;
+                        max-width: 100%;
+                    }
+
+                    .quiz-stats {
+                        display: flex;
+                        justify-content: space-between;
+                        flex-wrap: wrap;
+                        gap: 10px;
+                        margin-bottom: 15px;
+                        font-size: 16px;
+                    }
+
+                    .question-display {
+                        margin: 15px 0;
+                        padding: 10px;
+                        border-radius: 8px;
+                        background: #f5f5f5;
+                        word-wrap: break-word;
+                    }
+
+                    .answer-buttons {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 10px;
+                        margin: 15px 0;
+                    }
+
+                    .speed-btn {
+                        padding: 12px;
+                        font-size: 16px;
+                        border-radius: 8px;
+                        border: 2px solid #4a6da7;
+                        /* background: white; */
+                        min-height: 44px;
+                        touch-action: manipulation;
+                    }
+
+                    .controls {
+                        display: flex;
+                        gap: 10px;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                    }
+
+                    .start-btn,
+                    .reset-btn {
+                        padding: 12px 24px;
+                        font-size: 16px;
+                        border-radius: 8px;
+                        min-width: 120px;
+                        touch-action: manipulation;
+                    }
+
+                    .badge {
+                        padding: 8px 16px;
+                        margin: 10px 0;
+                        width: 100%;
+                        text-align: center;
+                        font-size: 14px;
+                    }
+
+                    .performance-chart-container {
+                        width: 100%;
+                        max-width: 100%;
+                        overflow-x: auto;
+                        margin-top: 15px;
+                    }
+
+                    @media (max-width: 480px) {
+                        .quiz-stats {
+                            font-size: 14px;
+                        }
+
+                        .speed-btn {
+                            padding: 10px;
+                            font-size: 14px;
+                        }
+
+                        .start-btn,
+                        .reset-btn {
+                            padding: 10px 20px;
+                            font-size: 14px;
+                            min-width: 100px;
+                        }
+                    }
+                </style>
+
+                <!-- Rest of your quiz JavaScript code remains the same -->
+                <script>
+                    // ... (keep all existing code until endQuiz function) ...
+                    const speedQuestions = [
+                        {
+                            q: "Why did God put man in the garden according to Genesis 2:15?",
+                            a: [
+                                "To eat all the fruits",
+                                "To name the animals",
+                                "To dress and keep it",
+                                "To build a temple",
+                            ],
+                            correct: 2,
+                        },
+                        {
+                            q: "What does the tree of knowledge of good and evil symbolize in the lesson?",
+                            a: [
+                                "God’s judgment",
+                                "Forbidden marriage",
+                                "God’s holy portion (tithe)",
+                                "Man’s full inheritance",
+                            ],
+                            correct: 2,
+                        },
+                        {
+                            q: "What happened because Adam ate God's portion?",
+                            a: [
+                                "He became wise",
+                                "He was blessed",
+                                "He received a reward",
+                                "He brought death and hardship",
+                            ],
+                            correct: 3,
+                        },
+                        {
+                            q: "According to the lesson, what does neglecting tithing bring?",
+                            a: [
+                                "Praise and honor",
+                                "Financial freedom",
+                                "Penalties and consequences",
+                                "Promotion at work",
+                            ],
+                            correct: 2,
+                        },
+                        {
+                            q: "What does Malachi 3:8 say about those who don’t tithe?",
+                            a: [
+                                "They are forgetful",
+                                "They are blessed",
+                                "They are robbers",
+                                "They are lazy",
+                            ],
+                            correct: 2,
+                        },
+                        {
+                            q: "What must someone add if they borrow their tithe? (Lev 22:14)",
+                            a: [
+                                "10% more",
+                                "1/5 (20%) more",
+                                "Double it",
+                                "Pray for forgiveness",
+                            ],
+                            correct: 1,
+                        },
+                        {
+                            q: "What happens if you exchange your tithe? (Lev 27:33)",
+                            a: [
+                                "Only the better one is accepted",
+                                "You are excused",
+                                "Both become God's portion",
+                                "You pay a penalty",
+                            ],
+                            correct: 2,
+                        },
+                        {
+                            q: "What did the Levites do when tithes were withheld? (Neh 13:10)",
+                            a: [
+                                "They fasted more",
+                                "They gave their own tithe",
+                                "They abandoned the work of God",
+                                "They prayed harder",
+                            ],
+                            correct: 2,
+                        },
+                        {
+                            q: "What is God’s command concerning your income?",
+                            a: [
+                                "Keep all for yourself",
+                                "Eat ten parts",
+                                "Eat nine parts, give one to God",
+                                "Share with your friends",
+                            ],
+                            correct: 2,
+                        },
+                        {
+                            q: "What is a direct result of eating God’s portion?",
+                            a: [
+                                "More wealth",
+                                "Joy and peace",
+                                "Hardship and spiritual loss",
+                                "Increase in blessings",
+                            ],
+                            correct: 2,
+                        },
+                    ];
+
+                    let currentQuestion = 0;
+                    let timeLeft = 100;
+                    let timer;
+                    let score = 0;
+                    let isQuizActive = false;
+                    let questionResults = [];
+
+                    // ... other functions stay the same until endQuiz() ...
+                    function getPerformanceBadge(score) {
+                        // Changed to use score instead of percentage
+                        if (score >= 150) {
+                            return `<div class="badge gold">
+                                    <i class="fas fa-crown"></i>
+                                    <span>Grand Master of Tithing</span>
+                                </div>`;
+                        } else if (score >= 100) {
+                            return `<div class="badge silver">
+                                    <i class="fas fa-star"></i>
+                                    <span>Tithing Expert</span>
+                                </div>`;
+                        } else if (score >= 50) {
+                            return `<div class="badge bronze">
+                                    <i class="fas fa-award"></i>
+                                    <span>Tithing Scholar</span>
+                                </div>`;
+                        } else if (score >= 30) {
+                            return `<div class="badge beginner">
+                                    <i class="fas fa-seedling"></i>
+                                    <span>Tithing Student</span>
+                                </div>`;
+                        }
+                        return `<div class="badge beginner">
+                                <i class="fas fa-child"></i>
+                                <span>Tithing Beginner</span>
+                            </div>`;
+                    }
+
+                    function startSpeedQuiz() {
+                        if (isQuizActive) return;
+                        isQuizActive = true;
+                        score = 0;
+                        timeLeft = 50;
+                        currentQuestion = 0;
+                        questionResults = [];
+                        document.getElementById("speed-score").textContent =
+                            score;
+                        showQuestion();
+                        startTimer();
+                    }
+
+                    function showQuestion() {
+                        if (currentQuestion >= speedQuestions.length) {
+                            endQuiz();
+                            return;
+                        }
+                        const q = speedQuestions[currentQuestion];
+                        document.getElementById(
+                            "question-container"
+                        ).innerHTML = `
+                                <h4>Question ${currentQuestion + 1} of ${
+                            speedQuestions.length
+                        }:</h4>
+                                <p>${q.q}</p>
+                            `;
+                        document
+                            .querySelectorAll(".speed-btn")
+                            .forEach((btn, i) => {
+                                btn.textContent = q.a[i];
+                            });
+                    }
+
+                    function checkAnswer(choice) {
+                        if (!isQuizActive) return;
+                        const correct =
+                            speedQuestions[currentQuestion].correct === choice;
+                        const timebonus = Math.floor(timeLeft / 10);
+                        const pointsEarned = correct ? 10 + timebonus : 0;
+
+                        questionResults.push({
+                            question: currentQuestion + 1,
+                            correct: correct,
+                            points: pointsEarned,
+                            timeBonus: timebonus,
+                        });
+
+                        if (correct) {
+                            score += pointsEarned;
+                        }
+
+                        const feedback = document.getElementById("feedback");
+                        feedback.textContent = correct
+                            ? `Correct! +${pointsEarned} points`
+                            : "Wrong! Try the next question";
+                        feedback.className = `feedback ${
+                            correct ? "correct" : "wrong"
+                        }`;
+
+                        document.getElementById("speed-score").textContent =
+                            score;
+                        currentQuestion++;
+                        setTimeout(() => {
+                            feedback.textContent = "";
+                            showQuestion();
+                        }, 1000);
+                    }
+
+                    function startTimer() {
+                        timer = setInterval(() => {
+                            timeLeft--;
+                            document.getElementById("timer").textContent =
+                                timeLeft;
+                            if (timeLeft <= 0) endQuiz();
+                        }, 1000);
+                    }
+
+                    function createPerformanceChart() {
+                        const ctx = document.createElement("canvas");
+                        ctx.id = "performanceChart";
+                        ctx.style.marginTop = "20px";
+                        // Set minimum height for mobile
+                        ctx.style.minHeight = "300px"; // Added minimum height
+
+                        const labels = questionResults.map(
+                            (r) => `Q${r.question}`
+                        );
+                        const pointsData = questionResults.map((r) => r.points);
+                        const backgroundColors = questionResults.map(
+                            (r) =>
+                                r.correct
+                                    ? "rgba(75, 192, 192, 0.6)"
+                                    : "rgba(255, 0, 0, 0.6)" // Changed to pure red
+                        );
+                        const borderColors = questionResults.map(
+                            (r) =>
+                                r.correct
+                                    ? "rgba(75, 192, 192, 1)"
+                                    : "rgba(255, 0, 0, 1)" // Changed to pure red
+                        );
+
+                        new Chart(ctx, {
+                            type: "bar",
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: "Points per Question",
+                                        data: pointsData,
+                                        backgroundColor: backgroundColors,
+                                        borderColor: borderColors,
+                                        borderWidth: 1,
+                                    },
+                                ],
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                aspectRatio: 1,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: "Points",
+                                        },
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: "Questions",
+                                        },
+                                    },
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: "Performance Breakdown",
+                                    },
+                                    legend: {
+                                        display: false,
+                                    },
+                                },
+                            },
+                        });
+                        return ctx;
+                    }
+
+                    function endQuiz() {
+                        isQuizActive = false;
+                        clearInterval(timer);
+                        const questionsAttempted = currentQuestion;
+                        const correctAnswers = questionResults.filter(
+                            (r) => r.correct
+                        ).length;
+                        const scorePercentage = Math.round(
+                            (correctAnswers / speedQuestions.length) * 100
+                        );
+
+                        const container =
+                            document.getElementById("question-container");
+                        container.innerHTML = `
+                            <h4>Quiz Complete!</h4>
+                            ${getPerformanceBadge(score)}
+                            <p>Questions Attempted: ${questionsAttempted} of ${
+                            speedQuestions.length
+                        }</p>
+                            <p>Final Score: ${score} points</p>
+                            <p>Performance: ${scorePercentage}%</p>
+                            <p>Time Remaining: ${timeLeft}s</p>
+                            <p>${getScoreMessage(score)}</p>
+                            
+                            <div class="share-buttons">
+                                <button onclick="shareToWhatsApp()" class="share-btn whatsapp">
+                                    <i class="fab fa-whatsapp"></i> Share to WhatsApp
+                                </button>
+                                <button onclick="shareToFacebook()" class="share-btn facebook">
+                                    <i class="fab fa-facebook"></i> Share to Facebook
+                                </button>
+                            </div>
+
+                            <div class="performance-chart-container"></div>
+                        `;
+
+                        container
+                            .querySelector(".performance-chart-container")
+                            .appendChild(createPerformanceChart());
+
+                        // Add styles for share buttons
+                        const style = document.createElement("style");
+                        style.textContent = `
+                            .share-buttons {
+                                display: flex;
+                                gap: 10px;
+                                margin: 15px 0;
+                                justify-content: center;
+                            }
+                            .share-btn {
+                                padding: 10px 20px;
+                                border: none;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                display: flex;
+                                align-items: center;
+                                gap: 8px;
+                                color: white;
+                                font-size: 14px;
+                            }
+                            .whatsapp {
+                                background-color: #25D366;
+                            }
+                            .facebook {
+                                background-color: #1877F2;
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
+
+                    function shareToWhatsApp() {
+                        const text = `🎯 Bible Quiz Result!\n
+                📊 My Score: ${score} points\n
+                ⭐ Performance: ${Math.round(
+                    (questionResults.filter((r) => r.correct).length /
+                        speedQuestions.length) *
+                        100
+                )}%\n
+                🎮 Try the quiz yourself at: ${window.location.href}`;
+
+                        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
+                            text
+                        )}`;
+                        window.open(whatsappUrl, "_blank");
+                    }
+
+                    function shareToFacebook() {
+                        const text = `I scored ${score} points in the Bible Quiz! Can you beat my score?`;
+                        const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                            window.location.href
+                        )}&quote=${encodeURIComponent(text)}`;
+                        window.open(fbUrl, "_blank", "width=600,height=400");
+                    }
+
+                    // ... (keep remaining functions the same) ...
+                    function getScoreMessage(score) {
+                        if (score >= 150) {
+                            return "Outstanding! You have excellent knowledge of tithing principles!";
+                        } else if (score >= 100) {
+                            return "Great work! You understand tithing concepts well!";
+                        } else if (score >= 50) {
+                            return "Good effort! Keep studying to improve your understanding.";
+                        } else if (score >= 30) {
+                            return "Keep learning! Review the lesson materials for better understanding.";
+                        }
+                        return "Don't give up! Review the lesson and try again.";
+                    }
+
+                    function resetSpeedQuiz() {
+                        isQuizActive = false;
+                        clearInterval(timer);
+                        score = 0;
+                        timeLeft = 50;
+                        currentQuestion = 0;
+                        questionResults = [];
+                        document.getElementById("speed-score").textContent =
+                            "0";
+                        document.getElementById("timer").textContent = "50";
+                        document.getElementById("feedback").textContent = "";
+                        document.getElementById(
+                            "question-container"
+                        ).innerHTML = `
+                                <h4 style="color:green">Get Ready!</h4>
+                                <p style="color:green">Answer quickly for bonus points!</p>
+                            `;
+                    }
+
+                    // Initialize quiz on page load
+                    document.addEventListener("DOMContentLoaded", () => {
+                        resetSpeedQuiz();
+                    });
+                </script>
+            </div>
+
+            <link rel="stylesheet" href="prayer.css" />
+
+            <div id="prayer" class="tab-content">
+                <h2>Prayer Points – Obedience and Faithfulness in Tithing</h2>
+
+                <div class="prayer-section">
+                    <div class="prayer-points">
+                        <div class="prayer-item">
+                            <div class="prayer-text">
+                                Lord, I thank You for the lesson on tithing —
+                                for revealing its meaning, history, and purpose;
+                                for the examples of faithful tithe payers; for
+                                the benefits that follow obedience; and for the
+                                clear warning about the consequences of not
+                                tithing at all, of not giving fully, or of
+                                substituting it with something else. Help me to
+                                obey You completely and honor You with what is
+                                Yours.
+                            </div>
+                        </div>
+                        <div class="prayer-item">
+                            <div class="prayer-text">
+                                Oh Lord, have mercy on me in any area where I
+                                have neglected Your command concerning tithing
+                                and brought Your displeasure upon myself —
+                                especially where I may have consumed Your holy
+                                portion along with my own. According to Your
+                                Word in Exodus 34:6, mercy is one of the most
+                                dominant attributes of Your nature. Please,
+                                Lord, show me mercy and compassion. In Jesus’
+                                name, Amen.
+                            </div>
+                        </div>
+                        <div class="prayer-item">
+                            <div class="prayer-text">
+                                By the blood of Jesus, I separate myself from
+                                every <b><em>obstacle</em></b> that I have
+                                brought upon myself by consuming Your holy
+                                portion. Any offense or displeasing remembrance
+                                it brings before You—whether when my super
+                                harvest is due or when I lift my voice in
+                                prayer—let the blood of Jesus cleanse it
+                                completely and transform it into a
+                                sweet-smelling offering before You. In Jesus’
+                                name, Amen.
+                            </div>
+                        </div>
+
+                        <div class="prayer-item">
+                            <div class="prayer-text">
+                                Father, deliver me from the spirit of neglect
+                                and carelessness toward Your command. I refuse
+                                to bring hardship on myself by eating Your holy
+                                portion.
+                            </div>
+                        </div>
+                            <div class="prayer-item">
+                            <div class="prayer-text">
+                                Lord, just as You placed Adam in the garden to
+                                dress and keep it, help me be a faithful steward
+                                of all You’ve entrusted to me. May I never eat
+                                what belongs to You.
+                            </div>
+                        </div>
+
+                        <div class="prayer-item">
+                            <div class="prayer-text">
+                                Almighty God, forgive me for any time I failed
+                                to tithe or gave grudgingly. I return to You
+                                with faith and obedience, trusting Your Word
+                                completely.
+                            </div>
+                        </div>
+
+                        <div class="prayer-item">
+                            <div class="prayer-text">
+                                Holy Spirit, open my eyes to understand that my
+                                job, income, and blessings are part of Your
+                                garden. Teach me to honor You first in all my
+                                increase.
+                            </div>
+                        </div>
+
+                        <div class="prayer-item">
+                            <div class="prayer-text">
+                                Lord, let me never fall into the curse of
+                                robbing You. Instead, let my life show the
+                                beauty of obedience and the joy of Your
+                                blessings.
+                            </div>
+                        </div>
+
+                        <div class="prayer-item">
+                            <div class="prayer-text">
+                                Father, restore every area of my life where
+                                neglect has brought loss. Like Nehemiah, raise
+                                true ministers who will serve faithfully as Your
+                                people obey You again.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="assignment" class="tab-content">
+    <h2>Weekly Assignment – Faithfulness in Tithing</h2>
+
+    <div class="assignment-container">
+        <!-- Tithing Chart -->
+        <div class="assignment-card">
+            <h3>Faithfulness Tracker</h3>
+            <p>Monitor your obedience by tracking your tithe each week:</p>
+            <div class="chart-container">
+                <canvas id="tithingChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Weekly Tithe Practice -->
+        <div class="assignment-card">
+            <h3>Obedience Practice – Weekly Tithe</h3>
+            <div class="task">
+                <p>
+                    Use this checklist to mark your tithe obedience each week. Remember,
+                    eating God’s portion (even unknowingly) has consequences (Leviticus 22:14).
+                    Show your faithfulness and restore holiness in your giving.
+                </p>
+                <div class="tithe-tracker">
+                    <div class="track-item">
+                        <input type="checkbox" id="week1" onchange="updateProgress()" />
+                        <label for="week1">Week 1 – Gave my tithe faithfully</label>
+                        <input type="date" class="date-input" onchange="updateChart()" />
+                    </div>
+                    <div class="track-item">
+                        <input type="checkbox" id="week2" onchange="updateProgress()" />
+                        <label for="week2">Week 2 – Gave my tithe faithfully</label>
+                        <input type="date" class="date-input" onchange="updateChart()" />
+                    </div>
+                    <div class="track-item">
+                        <input type="checkbox" id="week3" onchange="updateProgress()" />
+                        <label for="week3">Week 3 – Gave my tithe faithfully</label>
+                        <input type="date" class="date-input" onchange="updateChart()" />
+                    </div>
+                    <div class="track-item">
+                        <input type="checkbox" id="week4" onchange="updateProgress()" />
+                        <label for="week4">Week 4 – Gave my tithe faithfully</label>
+                        <input type="date" class="date-input" onchange="updateChart()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripture Assignment -->
+        <div class="assignment-card">
+            <h3>Scripture Study – Consequences of Neglect</h3>
+            <p>Read and reflect on these verses showing the result of neglecting God's command:</p>
+            <ul class="study-list">
+                <li>
+                    <input type="checkbox" id="verse1" onchange="updateProgress()" />
+                    <label for="verse1">Genesis 2:15–17 – The first Holy Portion</label>
+                    <button onclick="showBibleVersions('Genesis 2:15-17')" class="verse-btn">Read</button>
+                </li>
+                <li>
+                    <input type="checkbox" id="verse2" onchange="updateProgress()" />
+                    <label for="verse2">Leviticus 22:14 – The penalty for using the holy portion</label>
+                    <button onclick="showBibleVersions('Leviticus 22:14')" class="verse-btn">Read</button>
+                </li>
+                <li>
+                    <input type="checkbox" id="verse3" onchange="updateProgress()" />
+                    <label for="verse3">Malachi 3:8–10 – Robbing God and the curse</label>
+                    <button onclick="showBibleVersions('Malachi 3:8-10')" class="verse-btn">Read</button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Reflection Area -->
+        <div class="assignment-card">
+            <h3>Reflection Journal – God's Portion</h3>
+            <p>Think deeply: Have I ever eaten God’s portion? What will I do differently now?</p>
+            <textarea
+                id="reflectionText"
+                rows="5"
+                placeholder="Write your personal reflection here..."
+            ></textarea>
+            <button onclick="saveReflection()">💾 Save Reflection</button>
+        </div>
+
+        <!-- Visual Progress Bar -->
+        <div class="assignment-card">
+            <h3>Progress Overview</h3>
+            <div class="progress-bar" style="background: #eee; height: 20px; border-radius: 10px;">
+                <div
+                    id="assignmentProgress"
+                    style="height: 100%; width: 0%; background: #4a6da7; border-radius: 10px;"
+                ></div>
+            </div>
+            <p id="progressText">0% Complete</p>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Initialize Chart
+    const ctx = document.getElementById("tithingChart").getContext("2d");
+    const tithingChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            datasets: [
+                {
+                    label: "Tithe Given",
+                    data: [0, 0, 0, 0],
+                    backgroundColor: "#4a6da7",
+                    borderColor: "#4a6da7",
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1,
+                },
+            },
+        },
+    });
+
+    // Update chart when checkboxes are clicked
+    function updateChart() {
+        const weeks = ["week1", "week2", "week3", "week4"];
+        const newData = weeks.map((id) =>
+            document.getElementById(id).checked ? 1 : 0
+        );
+        tithingChart.data.datasets[0].data = newData;
+        tithingChart.update();
+    }
+
+    // Update progress bar
+    function updateProgress() {
+        const total = 7; // 4 weeks + 3 verses
+        const checked = document.querySelectorAll(
+            '#assignment input[type="checkbox"]:checked'
+        ).length;
+        const percent = (checked / total) * 100;
+
+        document.getElementById("assignmentProgress").style.width = percent + "%";
+        document.getElementById("progressText").textContent =
+            Math.round(percent) + "% Complete";
+
+        updateChart();
+    }
+
+    // Save reflection
+    function saveReflection() {
+        const reflection = document.getElementById("reflectionText").value;
+        localStorage.setItem("tithingReflection", reflection);
+        alert("Reflection saved!");
+    }
+
+    // Load reflection on page load
+    document.addEventListener("DOMContentLoaded", () => {
+        const saved = localStorage.getItem("tithingReflection");
+        if (saved) {
+            document.getElementById("reflectionText").value = saved;
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
+
+
+
+
+
+
+
+            <!-- Add this modal for Bible versions -->
+            <div id="verse-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2 id="verse-reference"></h2>
+                    <div class="version-tab">
+                        <button
+                            class="version-btn"
+                            onclick="showVersion('KJV')"
+                        >
+                            KJV
+                        </button>
+                        <button
+                            class="version-btn"
+                            onclick="showVersion('NKJV')"
+                        >
+                            NKJV
+                        </button>
+                        <button
+                            class="version-btn"
+                            onclick="showVersion('NIV')"
+                        >
+                            NIV
+                        </button>
+                        <button
+                            class="version-btn"
+                            onclick="showVersion('ESV')"
+                        >
+                            ESV
+                        </button>
+                        <button
+                            class="version-btn"
+                            onclick="showVersion('AMP')"
+                        >
+                            AMP
+                        </button>
+                        <button
+                            class="version-btn"
+                            onclick="showVersion('NLT')"
+                        >
+                            NLT
+                        </button>
+                    </div>
+                    <div id="verse-text"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Replace your existing font controls with this -->
+        <div class="font-controls">
+            <button
+                onclick="adjustFontSize(-1)"
+                aria-label="Decrease font size"
+            >
+                <i class="fas fa-minus"></i>
+            </button>
+            <span class="font-size">16px</span>
+            <button onclick="adjustFontSize(1)" aria-label="Increase font size">
+                <i class="fas fa-plus"></i>
+            </button>
+            <select
+                class="font-family-select"
+                onchange="changeFont(this.value)"
+            >
+                <option value="'Segoe UI', sans-serif">Default</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="Georgia, serif">Georgia</option>
+                <option value="'Times New Roman', serif">
+                    Times New Roman
+                </option>
+                <option value="'Comic Sans MS', cursive">Comic Sans</option>
+            </select>
+        </div>
+
+        <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"
+        ></script>
+
+        <script>
+            $(function () {
+                let tab = $("tab");
+                tab.click(function () {
+                    alert;
+                });
+            });
+        </script>
+
+        <script>
+            // Loading Screen
+            window.addEventListener("load", function () {
+                setTimeout(() => {
+                    document.querySelector(".loader-container").style.display =
+                        "none";
+                }, 2000);
+            });
+
+            // // Tab Functionality
+            function openTab(tabName) {
+                const tabContents =
+                    document.getElementsByClassName("tab-content");
+                const tabButtons = document.getElementsByClassName("tab-btn");
+                const spinner = document.getElementById("tab-spinner");
+
+                for (let content of tabContents) {
+                    content.classList.remove("active");
+                    content.style.display = "none";
+                }
+
+                for (let button of tabButtons) {
+                    button.classList.remove("active");
+                }
+
+                document.getElementById(tabName).classList.add("active");
+                event.currentTarget.classList.add("active");
+
+                spinner.style.display = "flex";
+
+                setTimeout(() => {
+                    // Hide spinner
+                    spinner.style.display = "none";
+
+                    // Show selected tab content
+                    const selectedTab = document.getElementById(tabName);
+                    selectedTab.style.display = "block";
+
+                    // Trigger a reflow before adding the active class for animation
+                    void selectedTab.offsetWidth;
+
+                    // Add active class to fade in the content
+                    selectedTab.classList.add("active");
+
+                    // Update progress if needed
+                    updateProgress();
+                }, 800); // Adjust loading time as needed (800ms)
+            }
+
+            // Theme Toggle
+
+            function toggleTheme() {
+                document.body.classList.toggle("dark-mode");
+                const icon = document.querySelector(".theme-toggle i");
+                icon.classList.toggle("fa-moon");
+                icon.classList.toggle("fa-sun");
+            }
+
+            // Add these functions to your existing JavaScript
+
+            function showBibleVersions(reference) {
+                const modal = document.getElementById("verse-modal");
+                const verseRef = document.getElementById("verse-reference");
+                verseRef.textContent = reference;
+                modal.style.display = "block";
+                document.body.classList.add("modal-open");
+                showVersion(preferredVersion);
+            }
+
+            const bibleVerses = {
+                "Hebrews 2:3": {
+                    KJV: "How shall we escape, if we neglect so great salvation; which at the first began to be spoken by the Lord, and was confirmed unto us by them that heard him;",
+                    NKJV: "How shall we escape if we neglect so great a salvation, which at the first began to be spoken by the Lord, and was confirmed to us by those who heard Him,",
+                    NIV: "how shall we escape if we ignore so great a salvation? This salvation, which was first announced by the Lord, was confirmed to us by those who heard him.",
+                    ESV: "how shall we escape if we neglect such a great salvation? It was declared at first by the Lord, and it was attested to us by those who heard,",
+                    AMP: "how will we escape [the penalty] if we ignore such a great salvation [the gospel, the new covenant]? For it was spoken at first by the Lord, and it was confirmed to us and proved authentic by those who personally heard [Him speak],",
+                    NLT: "So what makes us think we can escape if we ignore this great salvation that was first announced by the Lord Jesus himself and then delivered to us by those who heard him speak?",
+                },
+                "Genesis 2:15-17": {
+                    KJV: "<b>15</b> And the LORD God took the man, and put him into the garden of Eden to dress it and to keep it. <b>16</b> And the LORD God commanded the man, saying, Of every tree of the garden thou mayest freely eat: <b>17</b> But of the tree of the knowledge of good and evil, thou shalt not eat of it: for in the day that thou eatest thereof thou shalt surely die.",
+                    NKJV: "<b>15</b> Then the LORD God took the man and put him in the garden of Eden to tend and keep it. <b>16</b> And the LORD God commanded the man, saying, 'Of every tree of the garden you may freely eat; <b>17</b> but of the tree of the knowledge of good and evil you shall not eat, for in the day that you eat of it you shall surely die.'",
+                    NIV: "<b>15</b> The LORD God took the man and put him in the Garden of Eden to work it and take care of it. <b>16</b> And the LORD God commanded the man, 'You are free to eat from any tree in the garden; <b>17</b> but you must not eat from the tree of the knowledge of good and evil, for when you eat from it you will certainly die.'",
+                    ESV: "<b>15</b> The LORD God took the man and put him in the garden of Eden to work it and keep it. <b>16</b> And the LORD God commanded the man, saying, 'You may surely eat of every tree of the garden, <b>17</b> but of the tree of the knowledge of good and evil you shall not eat, for in the day that you eat of it you shall surely die.'",
+                    AMP: "<b>15</b> So the LORD God took the man [He had made] and settled him in the Garden of Eden to cultivate and keep it. <b>16</b> And the LORD God commanded the man, saying, 'You may freely (unconditionally) eat the fruit from every tree of the garden; <b>17</b> but [only] from the tree of the knowledge (recognition) of good and evil you shall not eat, otherwise on the day that you eat from it, you shall most certainly die [because of your disobedience].'",
+                    NLT: "<b>15</b> The LORD God placed the man in the Garden of Eden to tend and watch over it. <b>16</b> But the LORD God warned him, 'You may freely eat the fruit of every tree in the garden—<b>17</b> except the tree of the knowledge of good and evil. If you eat its fruit, you are sure to die.'",
+                },
+                "Leviticus 22:14": {
+                    KJV: "And if a man eat of the holy thing unwittingly, then he shall put the fifth part thereof unto it, and shall give it unto the priest with the holy thing.",
+                    NKJV: "If a man eats the holy offering unintentionally, then he shall restore a holy offering to the priest and add one-fifth to it.",
+                    NIV: "Anyone who eats a sacred offering by mistake must make restitution to the priest for the offering and add a fifth of the value to it.",
+                    ESV: "And if anyone eats a holy thing unintentionally, he shall add the fifth of its value to it and give the holy thing to the priest.",
+                    AMP: "If anyone eats a holy gift unintentionally, he shall add one-fifth of it to it and shall give the holy gift to the priest.",
+                    NLT: "If any unauthorized person eats a sacred offering by mistake, he must pay the priest for the offering and add a penalty of twenty percent.",
+                },
+                "Nehemiah 13:10": {
+                    KJV: "And I perceived that the portions of the Levites had not been given them: for the Levites and the singers, that did the work, were fled every one to his field.",
+                    NKJV: "I also realized that the portions for the Levites had not been given them; for each of the Levites and the singers who did the work had gone back to his field.",
+                    NIV: "I also learned that the portions assigned to the Levites had not been given to them, and that all the Levites and musicians responsible for the service had gone back to their own fields.",
+                    ESV: "I also found out that the portions of the Levites had not been given to them, so that the Levites and the singers, who did the work, had fled each to his field.",
+                    AMP: "I discovered that the portions of the Levites had not been given to them, so that the Levites and the singers who did the work [of God] had each fled to his field.",
+                    NLT: "I also discovered that the Levites had not been given their prescribed portions of food, so they and the singers who were to conduct the worship services had all returned to work their fields.",
+                },
+                "Leviticus 27:33": {
+                    KJV: "He shall not search whether it be good or bad, neither shall he change it: and if he change it at all, then both it and the change thereof shall be holy; it shall not be redeemed.",
+                    NKJV: "He shall not inquire whether it is good or bad, nor shall he exchange it; and if he exchanges it at all, then both it and the one exchanged for it shall be holy; it shall not be redeemed.",
+                    NIV: "No one may pick out the good from the bad or make any substitution. If anyone does make a substitution, both the animal and its substitute become holy and cannot be redeemed.",
+                    ESV: "One shall not differentiate between good or bad, neither shall he make a substitute for it; and if he does substitute for it, then both it and the substitute shall be holy; it shall not be redeemed.",
+                    AMP: "He shall not examine whether it is good or bad, nor shall he exchange it. But if he does exchange it, then both the original animal and its substitute shall be holy; it shall not be redeemed.",
+                    NLT: "You may not pick and choose between good and bad animals, and you may not substitute one for another. But if you do exchange one animal for another, then both the original animal and the substitute will be considered holy and cannot be bought back.",
+                },
+                "Malachi 3:8-9": {
+                    KJV: "<b>8</b> Will a man rob God? Yet ye have robbed me. But ye say, Wherein have we robbed thee? In tithes and offerings. <b>9</b> Ye are cursed with a curse: for ye have robbed me, even this whole nation.",
+                    NKJV: "<b>8</b> Will a man rob God? Yet you have robbed Me! But you say, ‘In what way have we robbed You?’ In tithes and offerings. <b>9</b> You are cursed with a curse, for you have robbed Me, even this whole nation.",
+                    NIV: "<b>8</b> Will a mere mortal rob God? Yet you rob me. But you ask, ‘How are we robbing you?’ In tithes and offerings. <b>9</b> You are under a curse—your whole nation—because you are robbing me.",
+                    ESV: "<b>8</b> Will man rob God? Yet you are robbing me. But you say, ‘How have we robbed you?’ In your tithes and contributions. <b>9</b> You are cursed with a curse, for you are robbing me, the whole nation of you.",
+                    AMP: "<b>8</b> Will a man rob God? Yet you are robbing Me! But you say, ‘In what way have we robbed You?’ In tithes and offerings [you have withheld]. <b>9</b> You are cursed with a curse, for you are robbing Me, this whole nation!",
+                    NLT: "<b>8</b> Should people cheat God? Yet you have cheated me! “But you ask, ‘What do you mean? When did we ever cheat you?’ “You have cheated me of the tithes and offerings due to me. <b>9</b> You are under a curse, for your whole nation has been cheating me.",
+                },
+                Consequences: {
+                    KJV: "Consequences means the results or effects that follow an action or decision. These can be Positive or good results and Negative or bad results Penalty synonyms are: Punishment, Damage, Loss, Suffering, Cost, Backlash, Retaliation",
+                    NKJV: "Consequences means the results or effects that follow an action or decision. These can be Positive or good results and Negative or bad results Penalty synonyms are: Punishment, Damage, Loss, Suffering, Cost, Backlash, Retaliation",
+                    ESV: "Consequences means the results or effects that follow an action or decision. These can be Positive or good results and Negative or bad results Penalty synonyms are: Punishment, Damage, Loss, Suffering, Cost, Backlash, Retaliation",
+                    AMP: "Consequences means the results or effects that follow an action or decision. These can be Positive or good results and Negative or bad results Penalty synonyms are: Punishment, Damage, Loss, Suffering, Cost, Backlash, Retaliation",
+                    NLT: "Consequences means the results or effects that follow an action or decision. These can be Positive or good results and Negative or bad results Penalty synonyms are: Punishment, Damage, Loss, Suffering, Cost, Backlash, Retaliation",
+                },
+                Neglecting: {
+                    KJV: "means failing to take care of something or someone properly, or ignoring your duties or responsibilities. Neglecting means not paying attention or not doing what you're supposed to do. Synonyms: Ignoring, Overlooking, Disregarding, Omitting, Skipping, Missing, Failing to attend to",
+                    NKJV: "means failing to take care of something or someone properly, or ignoring your duties or responsibilities. Neglecting means not paying attention or not doing what you're supposed to do. Synonyms: Ignoring, Overlooking, Disregarding, Omitting, Skipping, Missing, Failing to attend to",
+                    ESV: "means failing to take care of something or someone properly, or ignoring your duties or responsibilities. Neglecting means not paying attention or not doing what you're supposed to do. Synonyms: Ignoring, Overlooking, Disregarding, Omitting, Skipping, Missing, Failing to attend to",
+                    AMP: "means failing to take care of something or someone properly, or ignoring your duties or responsibilities. Neglecting means not paying attention or not doing what you're supposed to do. Synonyms: Ignoring, Overlooking, Disregarding, Omitting, Skipping, Missing, Failing to attend to",
+                    NLT: "means failing to take care of something or someone properly, or ignoring your duties or responsibilities. Neglecting means not paying attention or not doing what you're supposed to do. Synonyms: Ignoring, Overlooking, Disregarding, Omitting, Skipping, Missing, Failing to attend to",
+                },
+            };
+
+            // Replace the existing showVersion function
+
+            function showVersion(version) {
+                const reference =
+                    document.getElementById("verse-reference").textContent;
+                const verseText = document.getElementById("verse-text");
+
+                // Show loader
+                verseText.innerHTML =
+                    '<div class="verse-loader"><i class="fas fa-spinner fa-2x"></i></div>';
+
+                // Simulate loading time and show verse
+                setTimeout(() => {
+                    if (bibleVerses[reference]) {
+                        verseText.innerHTML = `<p class="verse-text">${bibleVerses[reference][version]}</p>`;
+                        // Add show class after a brief delay to trigger fade-in
+                        setTimeout(() => {
+                            document
+                                .querySelector(".verse-text")
+                                .classList.add("show");
+                        }, 50);
+                    } else {
+                        verseText.innerHTML =
+                            "<p>Verse not found in database.</p>";
+                    }
+
+                    // Update active button
+                    document.querySelectorAll(".version-btn").forEach((btn) => {
+                        btn.classList.remove("active");
+                        if (btn.textContent === version)
+                            btn.classList.add("active");
+                    });
+                }, 500); // Half second loading time
+            }
+
+            // Close modal when clicking the X or outside
+            document.querySelector(".close").onclick = function () {
+                document.getElementById("verse-modal").style.display = "none";
+                document.body.classList.remove("modal-open");
+            };
+
+            window.onclick = function (event) {
+                const modal = document.getElementById("verse-modal");
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                    document.body.classList.remove("modal-open");
+                }
+            };
+
+            function checkQuiz() {
+                const answers = {
+                    q1: "a", // Malachi 3:10
+                    q2: "b", // Time of Melchizedek and Abraham
+                    q3: "a", // No, it predates the Law of Moses
+                    q4: "c", // Christ
+                    q5: "a", // Hebrews 7:6-8
+                    q6: "a", // To support Melchizedek's priesthood
+                };
+
+                let score = 0;
+                let total = Object.keys(answers).length;
+                let resultsHTML = "<h3>📊 Quiz Results</h3><ul>";
+
+                for (let key in answers) {
+                    const selected = document.querySelector(
+                        `input[name="${key}"]:checked`
+                    );
+                    if (selected) {
+                        if (selected.value === answers[key]) {
+                            score++;
+                            resultsHTML += `<li>Question ${key.slice(
+                                1
+                            )}: ✅ Correct</li>`;
+                        } else {
+                            resultsHTML += `<li>Question ${key.slice(
+                                1
+                            )}: ❌ Incorrect</li>`;
+                        }
+                    } else {
+                        resultsHTML += `<li>Question ${key.slice(
+                            1
+                        )}: ⚠️ Not answered</li>`;
+                    }
+                }
+
+                resultsHTML += `</ul>`;
+
+                // Calculate percentage and add appropriate styling
+                const percentage = Math.round((score / total) * 100);
+                let scoreClass = "";
+                let message = "";
+
+                if (percentage >= 80) {
+                    scoreClass = "score-excellent";
+                    message =
+                        "🎉 Excellent work! You have a strong understanding of biblical tithing.";
+                } else if (percentage >= 60) {
+                    scoreClass = "score-good";
+                    message =
+                        "👍 Good job! You have a solid foundation, but consider reviewing some concepts.";
+                } else {
+                    scoreClass = "score-needs-improvement";
+                    message =
+                        "📚 Keep studying! Review the lesson materials to strengthen your understanding.";
+                }
+
+                resultsHTML += `<div class="score-summary ${scoreClass}">
+                            <strong>Your Score: ${score} out of ${total} (${percentage}%)</strong>
+                            <br><br>${message}
+                        </div>`;
+
+                const resultsDiv = document.getElementById("quiz-results");
+                resultsDiv.innerHTML = resultsHTML;
+                resultsDiv.classList.add("show");
+                resultsDiv.scrollIntoView({ behavior: "smooth" });
+            }
+
+            let progress = 0;
+            const totalSections = 5; // Number of tabs
+
+            function updateProgress(increment = true) {
+                if (increment) {
+                    progress = Math.min(100, progress + 100 / totalSections);
+                }
+                const progressBar = document.querySelector(".progress");
+                const progressText = document.querySelector(".progress-text");
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${Math.round(progress)}% Complete`;
+
+                if (progress >= 100) {
+                    showToast(
+                        "Congratulations! You've completed the lesson! 🎉"
+                    );
+                }
+            }
+
+            function showToast(message) {
+                const toast = document.createElement("div");
+                toast.className = "toast";
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                // Trigger reflow
+                toast.offsetHeight;
+
+                // Show toast
+                toast.style.opacity = "1";
+
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    toast.style.opacity = "0";
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // Add interaction tracking to tab switching
+            const originalOpenTab = openTab;
+            openTab = function (tabName) {
+                originalOpenTab(tabName);
+                updateProgress();
+
+                // Add animation to questions
+                if (tabName === "quiz") {
+                    document.querySelectorAll(".question").forEach((q, i) => {
+                        setTimeout(() => q.classList.add("show"), i * 200);
+                    });
+                }
+            };
+
+            // Save progress to localStorage
+            function saveProgress() {
+                localStorage.setItem("lessonProgress", progress);
+                showToast("Progress saved! 💾");
+            }
+
+            // Load saved progress
+            window.addEventListener("load", () => {
+                const savedProgress = localStorage.getItem("lessonProgress");
+                if (savedProgress) {
+                    progress = parseFloat(savedProgress);
+                    updateProgress(false);
+                }
+            });
+
+            // Share functionality
+            function shareLesson() {
+                if (navigator.share) {
+                    navigator
+                        .share({
+                            title: "Sunday School Lesson",
+                            text: "Check out this lesson on Real Christian Clothing!",
+                            url: window.location.href,
+                        })
+                        .then(() => showToast("Shared successfully! 🙌"))
+                        .catch(() => showToast("Sharing failed"));
+                } else {
+                    showToast("Sharing not supported on this device");
+                }
+            }
+
+            // Scroll to top
+            function scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            }
+
+            // Add to your existing JavaScript
+
+            let preferredVersion =
+                localStorage.getItem("preferredVersion") || "KJV";
+
+            function changeDefaultVersion(version) {
+                preferredVersion = version;
+                localStorage.setItem("preferredVersion", version);
+                showVersion(version);
+                showToast(`Default Bible version changed to ${version}`);
+            }
+
+            // Update the showBibleVersions function
+
+            // Load preferred version on startup
+            window.addEventListener("load", () => {
+                const savedVersion = localStorage.getItem("preferredVersion");
+                if (savedVersion) {
+                    preferredVersion = savedVersion;
+                    document.querySelectorAll(".version-btn").forEach((btn) => {
+                        btn.classList.remove("active");
+                        if (btn.textContent === preferredVersion)
+                            btn.classList.add("active");
+                    });
+                }
+            });
+
+            // Add this to your existing <script> section
+            let currentFontSize =
+                parseInt(localStorage.getItem("preferredFontSize")) || 16;
+
+            function adjustFontSize(delta) {
+                // Adjust font size with limits
+                currentFontSize = Math.min(
+                    Math.max(currentFontSize + delta, 12),
+                    24
+                );
+
+                // Update CSS variable
+                document.documentElement.style.setProperty(
+                    "--font-size",
+                    `${currentFontSize}px`
+                );
+
+                // Update display
+                document.querySelector(
+                    ".font-size"
+                ).textContent = `${currentFontSize}px`;
+
+                // Save to localStorage
+                localStorage.setItem("preferredFontSize", currentFontSize);
+            }
+
+            // Initialize font size on page load
+            window.addEventListener("load", () => {
+                // Set initial font size
+                document.documentElement.style.setProperty(
+                    "--font-size",
+                    `${currentFontSize}px`
+                );
+                document.querySelector(
+                    ".font-size"
+                ).textContent = `${currentFontSize}px`;
+
+                // Add scalable-text class to all text elements
+                document
+                    .querySelectorAll(
+                        "p, h1, h2, h3, h4, h5, h6, li, blockquote, label, button, input, textarea, .tab-btn, .verse-text, .options label"
+                    )
+                    .forEach((el) => el.classList.add("scalable-text"));
+            });
+
+            function changeFont(fontFamily) {
+                document.body.style.fontFamily = fontFamily;
+                // Save preference
+                localStorage.setItem("preferredFont", fontFamily);
+            }
+
+            // Load saved preferences
+            window.addEventListener("load", () => {
+                const savedFontSize = localStorage.getItem("preferredFontSize");
+                if (savedFontSize) {
+                    currentFontSize = parseInt(savedFontSize);
+                    adjustFontSize(0);
+                }
+
+                const savedFont = localStorage.getItem("preferredFont");
+                if (savedFont) {
+                    document.body.style.fontFamily = savedFont;
+                    document.querySelector(".font-family-select").value =
+                        savedFont;
+                }
+            });
+
+            // Add CSS Variable for scaling
+            document.documentElement.style.setProperty(
+                "--content-scale",
+                "100%"
+            );
+
+            // Update content elements to use the scale
+            document
+                .querySelectorAll(
+                    ".tab-content, .memory-verse, .reflection-notes"
+                )
+                .forEach((el) => {
+                    el.classList.add("adjustable-content");
+                    el.style.fontSize =
+                        "calc(1rem * var(--content-scale) / 100)";
+                });
+
+            // Add to your existing <script> section
+            document.addEventListener("DOMContentLoaded", () => {
+                // Love Meter functionality
+                const loveSlider = document.querySelector(".love-slider");
+                const ratingValue = document.querySelector(".rating-value");
+                const ratingFeedback =
+                    document.querySelector(".rating-feedback");
+
+                if (loveSlider) {
+                    loveSlider.addEventListener("input", () => {
+                        const value = loveSlider.value;
+                        ratingValue.textContent = `${value}/10`;
+
+                        // Update feedback based on rating
+                        const feedback =
+                            value >= 8
+                                ? "Excellent! Keep showing God's love!"
+                                : value >= 6
+                                ? "Good effort! There's room to grow."
+                                : "Consider ways to show more love tomorrow.";
+                        ratingFeedback.textContent = feedback;
+                    });
+                }
+
+                // Action Items functionality
+                const addActionBtn = document.querySelector(".add-action-btn");
+                if (addActionBtn) {
+                    addActionBtn.addEventListener("click", () => {
+                        const action = prompt("Enter your custom love action:");
+                        if (action) {
+                            const actionItems =
+                                document.querySelector(".action-items");
+                            const newAction = document.createElement("div");
+                            newAction.className = "action-item";
+                            newAction.innerHTML = `
+                                                                                <input type="checkbox" id="action${Date.now()}">
+                                                                                <label for="action${Date.now()}">${action}</label>
+                                                                            `;
+                            actionItems.insertBefore(newAction, addActionBtn);
+                        }
+                    });
+                }
+
+                // Journal Prompts functionality
+                const prompts = [
+                    "How did you demonstrate God's love today?",
+                    "What challenges did you face in showing love?",
+                    "How can you better express God's love tomorrow?",
+                ];
+                let currentPrompt = 0;
+
+                const updatePrompt = () => {
+                    const promptElement = document.querySelector(".prompt p");
+                    const promptCounter =
+                        document.querySelector(".prompt-counter");
+                    if (promptElement) {
+                        promptElement.textContent = prompts[currentPrompt];
+                        promptCounter.textContent = `${currentPrompt + 1}/${
+                            prompts.length
+                        }`;
+                    }
+                };
+
+                const nextPromptBtn = document.querySelector(".next-prompt");
+                const prevPromptBtn = document.querySelector(".prev-prompt");
+
+                if (nextPromptBtn && prevPromptBtn) {
+                    nextPromptBtn.addEventListener("click", () => {
+                        if (currentPrompt < prompts.length - 1) {
+                            currentPrompt++;
+                            updatePrompt();
+                            prevPromptBtn.disabled = false;
+                            if (currentPrompt === prompts.length - 1) {
+                                nextPromptBtn.disabled = true;
+                            }
+                        }
+                    });
+
+                    prevPromptBtn.addEventListener("click", () => {
+                        if (currentPrompt > 0) {
+                            currentPrompt--;
+                            updatePrompt();
+                            nextPromptBtn.disabled = false;
+                            if (currentPrompt === 0) {
+                                prevPromptBtn.disabled = true;
+                            }
+                        }
+                    });
+                }
+
+                // Commitment functionality
+                const saveCommitmentBtn =
+                    document.querySelector(".save-commitment");
+                const commitmentInput =
+                    document.querySelector(".commitment-input");
+                const commitmentList =
+                    document.querySelector(".commitment-list");
+
+                if (saveCommitmentBtn && commitmentInput && commitmentList) {
+                    // Load saved commitments
+                    const savedCommitments = JSON.parse(
+                        localStorage.getItem("commitments") || "[]"
+                    );
+                    savedCommitments.forEach((commitment) => {
+                        const li = document.createElement("li");
+                        li.textContent = commitment;
+                        commitmentList.appendChild(li);
+                    });
+
+                    saveCommitmentBtn.addEventListener("click", () => {
+                        const commitment = commitmentInput.value.trim();
+                        if (commitment) {
+                            const li = document.createElement("li");
+                            li.textContent = commitment;
+                            commitmentList.appendChild(li);
+
+                            // Save to localStorage
+                            const commitments = JSON.parse(
+                                localStorage.getItem("commitments") || "[]"
+                            );
+                            commitments.push(commitment);
+                            localStorage.setItem(
+                                "commitments",
+                                JSON.stringify(commitments)
+                            );
+
+                            commitmentInput.value = "";
+                            showToast("Commitment saved! 🙏");
+                        }
+                    });
+                }
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const trigger = document.getElementById("fruitTrigger");
+                const audio = document.getElementById("fruitSound");
+
+                let hasPlayed = sessionStorage.getItem("fruitSoundPlayed");
+
+                trigger.addEventListener("click", function () {
+                    // Animate
+                    trigger.classList.add("bounce");
+                    setTimeout(() => trigger.classList.remove("bounce"), 300);
+
+                    // Play sound only once per session
+                    if (!hasPlayed && audio) {
+                        audio.currentTime = 0;
+                        audio.play();
+                        sessionStorage.setItem("fruitSoundPlayed", "true");
+                        hasPlayed = true;
+                    }
+                });
+            });
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
